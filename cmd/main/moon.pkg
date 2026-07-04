@@ -1,7 +1,7 @@
 import {
-  "Lyhdsba/moonspectrum",
+  "Lyhdsba/moonspectrum" @ms,
   "moonbitlang/core/env" @env,
-  "moonbitlang/core/json" @json,
+  "moonbitlang/core/strconv" @strconv,
   "moonbitlang/x/fs" @fs,
 }
 
