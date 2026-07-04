@@ -39,7 +39,14 @@ fn print_help() -> Unit {
 fn find_command(args : Array[String]) -> Int? {
   for i in 0..<args.length() {
     match args[i] {
-      "demo" | "fft" | "analyze" | "window" | "convolve" | "help" | "--help" | "-h" => break Some(i)
+      "demo"
+      | "fft"
+      | "analyze"
+      | "window"
+      | "convolve"
+      | "help"
+      | "--help"
+      | "-h" => break Some(i)
       _ => continue
     }
   } nobreak {
@@ -52,48 +59,58 @@ fn run_demo() -> Unit raise {
   let signal = @ms.sine_wave(length=8, sample_rate=8.0, frequency=2.0)
   let spectrum = @ms.fft(@ms.real_signal(signal))
   let peak = @ms.dominant_peak(spectrum, 8.0)
-  println("{\"demo\":\"sine\",\"samples\":\{double_array_json(signal)},\"dominant_frequency\":\{peak.frequency},\"peak_bin\":\{peak.index}}")
+  println(
+    "{\"demo\":\"sine\",\"samples\":\{double_array_json(signal)},\"dominant_frequency\":\{peak.frequency},\"peak_bin\":\{peak.index}}",
+  )
 }
 
 ///|
 fn run_fft(args : Array[String], index : Int) -> Unit raise {
   guard index + 1 < args.length() else {
-    raise @ms.SpectrumError::InvalidArgument(message="fft requires a csv file")
+    raise @ms.InvalidArgument(message="fft requires a csv file")
   }
   let sample_rate = flag_double(args, "--sample-rate", 1.0)
   let values = read_csv_column(args[index + 1])
   let spectrum = @ms.fft(@ms.real_signal(values))
   let magnitudes = @ms.magnitude_spectrum(spectrum)
-  println("{\"sample_rate\":\{sample_rate},\"magnitudes\":\{double_array_json(magnitudes)}}")
+  println(
+    "{\"sample_rate\":\{sample_rate},\"magnitudes\":\{double_array_json(magnitudes)}}",
+  )
 }
 
 ///|
 fn run_analyze(args : Array[String], index : Int) -> Unit raise {
   guard index + 1 < args.length() else {
-    raise @ms.SpectrumError::InvalidArgument(message="analyze requires a csv file")
+    raise @ms.InvalidArgument(message="analyze requires a csv file")
   }
   let sample_rate = flag_double(args, "--sample-rate", 1.0)
   let values = read_csv_column(args[index + 1])
   let spectrum = @ms.fft(@ms.real_signal(values))
   let peak = @ms.dominant_peak(spectrum, sample_rate)
-  println("{\"samples\":\{values.length()},\"sample_rate\":\{sample_rate},\"dominant_bin\":\{peak.index},\"dominant_frequency\":\{peak.frequency},\"magnitude\":\{peak.magnitude}}")
+  println(
+    "{\"samples\":\{values.length()},\"sample_rate\":\{sample_rate},\"dominant_bin\":\{peak.index},\"dominant_frequency\":\{peak.frequency},\"magnitude\":\{peak.magnitude}}",
+  )
 }
 
 ///|
 fn run_window(args : Array[String], index : Int) -> Unit raise {
   guard index + 2 < args.length() else {
-    raise @ms.SpectrumError::InvalidArgument(message="window requires kind and length")
+    raise @ms.InvalidArgument(message="window requires kind and length")
   }
   let kind = parse_window_kind(args[index + 1])
   let length = parse_double(args[index + 2].to_string_view()).to_int()
   let weights = @ms.window(kind, length)
-  println("{\"window\":\"\{args[index + 1]}\",\"weights\":\{double_array_json(weights)}}")
+  println(
+    "{\"window\":\"\{args[index + 1]}\",\"weights\":\{double_array_json(weights)}}",
+  )
 }
 
 ///|
 fn run_convolve(args : Array[String], index : Int) -> Unit raise {
   guard index + 2 < args.length() else {
-    raise @ms.SpectrumError::InvalidArgument(message="convolve requires signal and kernel csv files")
+    raise @ms.InvalidArgument(
+      message="convolve requires signal and kernel csv files",
+    )
   }
   let signal = read_csv_column(args[index + 1])
   let kernel = read_csv_column(args[index + 2])
@@ -102,7 +119,11 @@ fn run_convolve(args : Array[String], index : Int) -> Unit raise {
 }
 
 ///|
-fn flag_double(args : Array[String], flag : String, default : Double) -> Double raise {
+fn flag_double(
+  args : Array[String],
+  flag : String,
+  default : Double,
+) -> Double raise {
   for i in 0..<args.length() {
     if args[i] == flag && i + 1 < args.length() {
       break parse_double(args[i + 1].to_string_view())
@@ -136,7 +157,7 @@ fn parse_window_kind(input : String) -> @ms.WindowKind raise @ms.SpectrumError {
     "hann" => Hann
     "hamming" => Hamming
     "blackman" => Blackman
-    _ => raise @ms.SpectrumError::InvalidArgument(message="unknown window kind")
+    _ => raise InvalidArgument(message="unknown window kind")
   }
 }
 

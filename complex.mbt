@@ -42,6 +42,10 @@ pub fn approx_equal(a : Double, b : Double, eps? : Double = 0.000001) -> Bool {
 }
 
 ///|
-pub fn Complex::approx_equal(self : Complex, other : Complex, eps? : Double = 0.000001) -> Bool {
+pub fn Complex::approx_equal(
+  self : Complex,
+  other : Complex,
+  eps? : Double = 0.000001,
+) -> Bool {
   approx_equal(self.re, other.re, eps~) && approx_equal(self.im, other.im, eps~)
 }

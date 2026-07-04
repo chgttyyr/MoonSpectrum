@@ -26,4 +26,3 @@ pub(all) suberror SpectrumError {
   NonPowerOfTwo(length~ : Int)
   InvalidArgument(message~ : String)
 } derive(Debug, Eq, ToJson)
-

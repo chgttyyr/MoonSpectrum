@@ -1,5 +1,9 @@
 ///|
-fn assert_close(actual : Double, expected : Double, eps? : Double = 0.000001) -> Unit raise {
+fn assert_close(
+  actual : Double,
+  expected : Double,
+  eps? : Double = 0.000001,
+) -> Unit raise {
   if !approx_equal(actual, expected, eps~) {
     fail("expected \{expected}, got \{actual}")
   }

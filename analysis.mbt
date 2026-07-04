@@ -9,12 +9,15 @@ pub fn power_spectrum(spectrum : ArrayView[Complex]) -> Array[Double] {
 }
 
 ///|
-pub fn frequency_bins(length : Int, sample_rate : Double) -> Array[Double] raise SpectrumError {
+pub fn frequency_bins(
+  length : Int,
+  sample_rate : Double,
+) -> Array[Double] raise SpectrumError {
   if length <= 0 {
-    raise SpectrumError::EmptySignal
+    raise EmptySignal
   }
   if sample_rate <= 0.0 {
-    raise SpectrumError::InvalidArgument(message="sample_rate must be positive")
+    raise InvalidArgument(message="sample_rate must be positive")
   }
   let bins : Array[Double] = []
   for i in 0..<length {
@@ -24,18 +27,21 @@ pub fn frequency_bins(length : Int, sample_rate : Double) -> Array[Double] raise
 }
 
 ///|
-pub fn dominant_peak(spectrum : ArrayView[Complex], sample_rate : Double) -> Peak raise SpectrumError {
+pub fn dominant_peak(
+  spectrum : ArrayView[Complex],
+  sample_rate : Double,
+) -> Peak raise SpectrumError {
   let n = spectrum.length()
   if n == 0 {
-    raise SpectrumError::EmptySignal
+    raise EmptySignal
   }
   if sample_rate <= 0.0 {
-    raise SpectrumError::InvalidArgument(message="sample_rate must be positive")
+    raise InvalidArgument(message="sample_rate must be positive")
   }
   let half = n / 2
   let mut best_index = 0
   let mut best_magnitude = -1.0
-  for i in 1..=half {
+  for i in 1..<=half {
     let magnitude = spectrum[i].magnitude()
     if magnitude > best_magnitude {
       best_index = i

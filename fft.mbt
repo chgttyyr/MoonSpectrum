@@ -2,13 +2,16 @@
 pub fn dft(signal : ArrayView[Complex]) -> Array[Complex] raise SpectrumError {
   let n = signal.length()
   if n == 0 {
-    raise SpectrumError::EmptySignal
+    raise EmptySignal
   }
   let out : Array[Complex] = []
   for k in 0..<n {
     let mut sum = Complex::zero()
     for t in 0..<n {
-      let angle = -2.0 * @math.PI * Double::from_int(k * t) / Double::from_int(n)
+      let angle = -2.0 *
+        @math.PI *
+        Double::from_int(k * t) /
+        Double::from_int(n)
       let w = complex(re=@math.cos(angle), im=@math.sin(angle))
       sum = sum.add(signal[t].mul(w))
     }
@@ -21,23 +24,27 @@ pub fn dft(signal : ArrayView[Complex]) -> Array[Complex] raise SpectrumError {
 pub fn fft(signal : ArrayView[Complex]) -> Array[Complex] raise SpectrumError {
   let n = signal.length()
   if n == 0 {
-    raise SpectrumError::EmptySignal
+    raise EmptySignal
   }
   if !is_power_of_two(n) {
-    raise SpectrumError::NonPowerOfTwo(length=n)
+    raise NonPowerOfTwo(length=n)
   }
   fft_inner(signal)
 }
 
 ///|
-pub fn ifft(spectrum : ArrayView[Complex]) -> Array[Complex] raise SpectrumError {
+pub fn ifft(
+  spectrum : ArrayView[Complex],
+) -> Array[Complex] raise SpectrumError {
   let n = spectrum.length()
   if n == 0 {
-    raise SpectrumError::EmptySignal
+    raise EmptySignal
   }
   let conjugated = spectrum.map(item => complex(re=item.re, im=-item.im))
   let transformed = fft(conjugated)
-  transformed.map(item => complex(re=item.re / Double::from_int(n), im=-item.im / Double::from_int(n)))
+  transformed.map(item => {
+    complex(re=item.re / Double::from_int(n), im=-item.im / Double::from_int(n))
+  })
 }
 
 ///|

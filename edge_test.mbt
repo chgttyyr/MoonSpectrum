@@ -1,5 +1,9 @@
 ///|
-fn assert_close_edge(actual : Double, expected : Double, eps? : Double = 0.000001) -> Unit raise {
+fn assert_close_edge(
+  actual : Double,
+  expected : Double,
+  eps? : Double = 0.000001,
+) -> Unit raise {
   if !approx_equal(actual, expected, eps~) {
     fail("expected \{expected}, got \{actual}")
   }
@@ -8,7 +12,8 @@ fn assert_close_edge(actual : Double, expected : Double, eps? : Double = 0.00000
 ///|
 test "fft rejects non power of two lengths" {
   try fft(real_signal([1.0, 2.0, 3.0])) catch {
-    SpectrumError::NonPowerOfTwo(length=3) => inspect("non-power-of-two", content="non-power-of-two")
+    NonPowerOfTwo(length=3) =>
+      inspect("non-power-of-two", content="non-power-of-two")
     err => fail("unexpected error: \{to_repr(err)}")
   } noraise {
     _ => fail("expected non power of two error")

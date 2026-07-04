@@ -1,10 +1,10 @@
 import {
   "Lyhdsba/moonspectrum" @ms,
-  "moonbitlang/core/env" @env,
-  "moonbitlang/core/strconv" @strconv,
-  "moonbitlang/x/fs" @fs,
+  "moonbitlang/core/env",
+  "moonbitlang/core/strconv",
+  "moonbitlang/x/fs",
 }
 
 options(
-  "is-main": true
+  "is-main": true,
 )
