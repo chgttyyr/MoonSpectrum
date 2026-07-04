@@ -1,6 +1,99 @@
 # MoonSpectrum
 
-MoonSpectrum is a MoonBit-native scientific signal processing toolkit.
+MoonSpectrum 是一个面向 MoonBit 生态的科学信号处理基础库。它提供复数运算、DFT/FFT、频谱分析、窗函数、卷积、基础 FIR 滤波和命令行分析工具，目标是补齐 MoonBit 在传感器数据、实验数据、振动信号、周期信号和教学验证中的基础算法能力。
 
-The first milestone is being developed for OSC2026.
+本项目不做音频播放、采集或设备后端，也不依赖 native FFI。当前版本优先保证算法清晰、测试可复现、跨后端可运行，后续再扩展 STFT 谱图、IIR 滤波、Welch PSD、重采样和 WebAssembly 可视化。
 
+## Why
+
+MoonBit 已经有一些音频、图形、矩阵和工程工具包，但通用科学信号处理方向还缺少一个小而稳的基础库。MoonSpectrum 的定位是：
+
+- 给 MoonBit 项目提供可复用的 FFT、频谱、窗函数、卷积和基础滤波能力。
+- 给 OSC2026 评审提供可直接运行的测试、示例数据和 CLI。
+- 给后续生态扩展留下清楚边界，而不是把音频引擎、数据框、可视化和控制系统混在一起。
+
+## Features
+
+- `Complex` 复数类型：加减乘、缩放、幅值、近似比较。
+- DFT / radix-2 FFT / inverse FFT。
+- 幅度谱、功率谱、频率 bin、主频检测。
+- 信号生成：正弦波、方波、脉冲、线性 chirp、确定性白噪声。
+- 窗函数：Rectangular、Hann、Hamming、Blackman。
+- 卷积：线性卷积、循环卷积。
+- 基础滤波：移动平均、FIR 卷积滤波、低通/高通窗函数法 taps。
+- CLI：`demo`、`fft`、`analyze`、`window`、`convolve`。
+
+## Quick Start
+
+```powershell
+moon test
+moon run cmd/main -- demo
+moon run cmd/main -- fft examples/sine.csv --sample-rate 8
+moon run cmd/main -- analyze examples/sine.csv --sample-rate 8
+moon run cmd/main -- window hann 4
+moon run cmd/main -- convolve examples/sine.csv examples/kernel.csv
+```
+
+Typical output:
+
+```json
+{"samples":8,"sample_rate":8,"dominant_bin":2,"dominant_frequency":2,"magnitude":4}
+```
+
+## API Sketch
+
+```mbt
+test {
+  let signal = sine_wave(length=8, sample_rate=8.0, frequency=2.0)
+  let spectrum = fft(real_signal(signal))
+  let peak = dominant_peak(spectrum, 8.0)
+  inspect(peak.index, content="2")
+}
+```
+
+The root package exports the public API. CLI code lives in `cmd/main` and uses the same library functions as users would.
+
+## Project Layout
+
+- `complex.mbt` - complex arithmetic and approximate comparisons.
+- `fft.mbt` - DFT, FFT, inverse FFT, real signal conversion.
+- `analysis.mbt` - spectra, frequency bins, peak detection.
+- `signals.mbt` - test/demo signal generation.
+- `windows.mbt` - window functions and window application.
+- `convolution.mbt` - linear and circular convolution.
+- `filters.mbt` - moving average, FIR filtering, low/high-pass taps.
+- `cmd/main` - CLI entry point.
+- `examples` - small CSV fixtures for smoke tests.
+- `docs/competition` - OSC2026 proposal and acceptance material.
+
+## Verification
+
+```powershell
+moon info
+moon fmt --check
+moon check --warn-list +73
+moon test
+powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPublishDryRun
+```
+
+`moon publish --dry-run` is intentionally separated because it requires local Mooncakes credentials.
+
+## Current Boundaries
+
+- FFT currently requires power-of-two input length.
+- CSV parser intentionally handles simple single-column numeric fixtures.
+- Time zones, timestamps, streaming IO, STFT, IIR, and visualization are future work.
+- No native FFI is used in v0.1.0.
+
+## Roadmap
+
+- STFT and spectrogram data export.
+- Welch PSD and cross-correlation.
+- IIR biquad filters.
+- Resampling and interpolation helpers.
+- Browser/WebAssembly demo for frequency-domain visualization.
+- More robust CSV/JSON data pipeline.
+
+## License
+
+Apache-2.0.
