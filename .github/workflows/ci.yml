@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  moonbit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Refresh registry
+        run: moon update
+      - name: Generate interfaces
+        run: moon info
+      - name: Format check
+        run: moon fmt --check
+      - name: Static check
+        run: moon check --warn-list +73
+      - name: Tests
+        run: moon test
+      - name: CLI smoke
+        run: |
+          moon run cmd/main -- demo
+          moon run cmd/main -- fft examples/sine.csv --sample-rate 8
+          moon run cmd/main -- analyze examples/sine.csv --sample-rate 8
+          moon run cmd/main -- window hann 4
+          moon run cmd/main -- convolve examples/sine.csv examples/kernel.csv
