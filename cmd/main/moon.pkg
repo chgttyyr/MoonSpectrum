@@ -1,5 +1,5 @@
 import {
-  "Lyhdsba/moonspectrum" @ms,
+  "chgttyyr/MoonSpectrum" @ms,
   "moonbitlang/core/env",
   "moonbitlang/core/strconv",
   "moonbitlang/x/fs",

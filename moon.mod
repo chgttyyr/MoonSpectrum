@@ -1,10 +1,10 @@
-name = "Lyhdsba/moonspectrum"
+name = "chgttyyr/MoonSpectrum"
 
 version = "0.1.0"
 
 readme = "README.md"
 
-repository = "https://github.com/Lyhdsba/moonspectrum"
+repository = "https://github.com/chgttyyr/MoonSpectrum"
 
 license = "Apache-2.0"
 

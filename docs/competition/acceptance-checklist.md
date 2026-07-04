@@ -2,11 +2,11 @@
 
 ## Repository
 
-- Public GitHub repository: `https://github.com/Lyhdsba/moonspectrum`
-- GitLink mirror: to be created and synchronized after GitLink login/owner confirmation.
+- Public GitHub repository: `https://github.com/chgttyyr/MoonSpectrum`
+- Public GitLink repository: `https://gitlink.org.cn/chgttyyr/MoonSpectrum`
 - License: Apache-2.0
 - Main language: MoonBit
-- Package name: `Lyhdsba/moonspectrum`
+- Package name: `chgttyyr/MoonSpectrum`
 
 ## Required reviewer surfaces
 
@@ -25,4 +25,3 @@ powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPubl
 
 The script verifies required files, commit count, Mooncakes keyword search, `moon info`,
 `moon fmt --check`, `moon check --warn-list +73`, `moon test`, and CLI smoke commands.
-
