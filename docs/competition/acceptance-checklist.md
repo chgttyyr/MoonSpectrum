@@ -16,6 +16,9 @@
 - CI workflow for format, check, tests, and CLI smoke.
 - One-page Chinese proposal PDF under `docs/competition/`.
 - Mooncakes overlap search record under `docs/competition/mooncakes-search.md`.
+- Final report under `docs/competition/final-report.md`.
+- Release checklist under `docs/competition/release-checklist.md`.
+- Mooncakes package page: `https://mooncakes.io/docs/chgttyyr/MoonSpectrum`.
 
 ## Local verification
 

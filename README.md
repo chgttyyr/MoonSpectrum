@@ -76,7 +76,15 @@ moon test
 powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPublishDryRun
 ```
 
-`moon publish --dry-run` is intentionally separated because it requires local Mooncakes credentials.
+## Release Links
+
+- GitHub: <https://github.com/chgttyyr/MoonSpectrum>
+- GitLink: <https://gitlink.org.cn/chgttyyr/MoonSpectrum>
+- Mooncakes: <https://mooncakes.io/docs/chgttyyr/MoonSpectrum>
+
+MoonSpectrum is prepared as a publishable MoonBit module. The package identity is
+`chgttyyr/MoonSpectrum`, and `moon.mod` is the source of truth for the package
+metadata shown on Mooncakes.
 
 ## Current Boundaries
 
