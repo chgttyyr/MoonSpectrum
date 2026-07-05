@@ -82,9 +82,9 @@ powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPubl
 - GitLink: <https://gitlink.org.cn/chgttyyr/MoonSpectrum>
 - Mooncakes: <https://mooncakes.io/docs/chgttyyr/MoonSpectrum>
 
-MoonSpectrum is prepared as a publishable MoonBit module. The package identity is
-`chgttyyr/MoonSpectrum`, and `moon.mod` is the source of truth for the package
-metadata shown on Mooncakes.
+MoonSpectrum is published as the Mooncakes module `chgttyyr/MoonSpectrum@0.1.0`.
+The `moon.mod` file is the source of truth for the package metadata shown on
+Mooncakes.
 
 ## Current Boundaries
 

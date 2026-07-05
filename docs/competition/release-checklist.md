@@ -12,7 +12,7 @@
 - [x] GitHub Actions CI
 - [x] 一页中文申报 PDF
 - [x] Mooncakes 检索记录
-- [ ] Mooncakes 正式发布
+- [x] Mooncakes 正式发布
 
 ## 发布命令
 
@@ -29,4 +29,4 @@ curl.exe -I -L https://mooncakes.io/docs/chgttyyr/MoonSpectrum
 curl.exe -s -L https://mooncakes.io/api/v0/modules/chgttyyr/MoonSpectrum
 ```
 
-发布成功后，将 README、结项报告和本清单中的 Mooncakes 状态更新为已发布。
+发布成功。`chgttyyr/MoonSpectrum@0.1.0` 已在 Mooncakes API 和文档页返回 HTTP 200。
