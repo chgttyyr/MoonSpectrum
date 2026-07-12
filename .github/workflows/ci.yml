@@ -13,16 +13,20 @@ jobs:
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Setup custom moon wrapper
+        run: |
+          chmod +x scripts/bin/moon
+          echo "$PWD/scripts/bin" >> "$GITHUB_PATH"
       - name: Refresh registry
         run: moon update
-      - name: Generate interfaces
-        run: moon info
-      - name: Format check
-        run: moon fmt --check
       - name: Static check
-        run: moon check --warn-list +73
+        run: moon check --deny-warn
+      - name: Format check
+        run: moon fmt --deny-warn
+      - name: Generate interfaces
+        run: moon info --deny-warn
       - name: Tests
-        run: moon test
+        run: moon test --deny-warn
       - name: CLI smoke
         run: |
           moon run cmd/main -- demo

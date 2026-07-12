@@ -10,6 +10,10 @@ pub fn apply_window(ArrayView[Double], ArrayView[Double]) -> Array[Double] raise
 
 pub fn approx_equal(Double, Double, eps? : Double) -> Bool
 
+pub fn bandpass_fir_taps(length~ : Int, low_cutoff_hz~ : Double, high_cutoff_hz~ : Double, sample_rate~ : Double) -> Array[Double] raise SpectrumError
+
+pub fn bandstop_fir_taps(length~ : Int, low_cutoff_hz~ : Double, high_cutoff_hz~ : Double, sample_rate~ : Double) -> Array[Double] raise SpectrumError
+
 pub fn chirp(length~ : Int, sample_rate~ : Double, start_hz~ : Double, end_hz~ : Double, amplitude? : Double) -> Array[Double] raise SpectrumError
 
 pub fn circular_convolve(ArrayView[Double], ArrayView[Double]) -> Array[Double] raise SpectrumError
@@ -40,13 +44,23 @@ pub fn magnitude_spectrum(ArrayView[Complex]) -> Array[Double]
 
 pub fn moving_average(ArrayView[Double], Int) -> Array[Double] raise SpectrumError
 
+pub fn periodogram(ArrayView[Double], Double, window_kind? : WindowKind) -> Array[Double] raise SpectrumError
+
 pub fn power_spectrum(ArrayView[Complex]) -> Array[Double]
 
 pub fn real_signal(ArrayView[Double]) -> Array[Complex]
 
+pub fn resample_linear(ArrayView[Double], Int) -> Array[Double] raise SpectrumError
+
+pub fn resample_sinc(ArrayView[Double], Int) -> Array[Double] raise SpectrumError
+
 pub fn sine_wave(length~ : Int, sample_rate~ : Double, frequency~ : Double, amplitude? : Double) -> Array[Double] raise SpectrumError
 
+pub fn single_sided_psd(ArrayView[Double]) -> Array[Double] raise SpectrumError
+
 pub fn square_wave(length~ : Int, sample_rate~ : Double, frequency~ : Double, amplitude? : Double) -> Array[Double] raise SpectrumError
+
+pub fn stft(ArrayView[Double], WindowKind, Int, Int) -> Array[Array[Complex]] raise SpectrumError
 
 pub fn white_noise(length~ : Int, seed~ : UInt, amplitude? : Double) -> Array[Double] raise SpectrumError
 
@@ -61,6 +75,24 @@ pub(all) suberror SpectrumError {
 } derive(Eq, ToJson, @debug.Debug)
 
 // Types and methods
+pub(all) struct Biquad {
+  mut b0 : Double
+  mut b1 : Double
+  mut b2 : Double
+  mut a1 : Double
+  mut a2 : Double
+  mut x1 : Double
+  mut x2 : Double
+  mut y1 : Double
+  mut y2 : Double
+} derive(Eq, ToJson, @debug.Debug)
+pub fn Biquad::bandpass(Double, Double, q? : Double) -> Self raise SpectrumError
+pub fn Biquad::filter(Self, ArrayView[Double]) -> Array[Double] raise SpectrumError
+pub fn Biquad::highpass(Double, Double, q? : Double) -> Self raise SpectrumError
+pub fn Biquad::lowpass(Double, Double, q? : Double) -> Self raise SpectrumError
+pub fn Biquad::new(Double, Double, Double, Double, Double) -> Self
+pub fn Biquad::step(Self, Double) -> Double
+
 pub(all) struct Complex {
   re : Double
   im : Double

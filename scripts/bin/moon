@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Find the real moon binary
+REAL_MOON="$HOME/.moon/bin/moon"
+if [ -f "$REAL_MOON.exe" ]; then
+  REAL_MOON="$REAL_MOON.exe"
+fi
+
+cmd="$1"
+shift
+
+# Check for --deny-warn
+deny_warn=0
+args=()
+for arg in "$@"; do
+  if [ "$arg" = "--deny-warn" ]; then
+    deny_warn=1
+  else
+    args+=("$arg")
+  fi
+done
+
+if [ "$cmd" = "fmt" ]; then
+  if [ $deny_warn -eq 1 ]; then
+    # fmt --deny-warn translates to checking if files are formatted
+    "$REAL_MOON" fmt --check "${args[@]}"
+    exit $?
+  else
+    "$REAL_MOON" fmt "${args[@]}"
+  fi
+elif [ "$cmd" = "info" ]; then
+  if [ $deny_warn -eq 1 ]; then
+    "$REAL_MOON" info "${args[@]}"
+    info_exit=$?
+    if [ $info_exit -ne 0 ]; then
+      exit $info_exit
+    fi
+    git diff --exit-code
+    exit $?
+  else
+    "$REAL_MOON" info "${args[@]}"
+  fi
+else
+  # Pass through other commands, keeping --deny-warn if it was there
+  if [ $deny_warn -eq 1 ]; then
+    "$REAL_MOON" "$cmd" --deny-warn "${args[@]}"
+  else
+    "$REAL_MOON" "$cmd" "${args[@]}"
+  fi
+fi

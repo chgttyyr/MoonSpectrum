@@ -95,3 +95,43 @@ fn normalize_taps(taps : Array[Double]) -> Array[Double] raise SpectrumError {
   }
   taps.map(item => item / sum)
 }
+
+///|
+pub fn bandpass_fir_taps(
+  length~ : Int,
+  low_cutoff_hz~ : Double,
+  high_cutoff_hz~ : Double,
+  sample_rate~ : Double,
+) -> Array[Double] raise SpectrumError {
+  if low_cutoff_hz >= high_cutoff_hz {
+    raise InvalidArgument(message="low_cutoff must be less than high_cutoff")
+  }
+  let low1 = lowpass_taps(length~, cutoff_hz=low_cutoff_hz, sample_rate~)
+  let low2 = lowpass_taps(length~, cutoff_hz=high_cutoff_hz, sample_rate~)
+  let out : Array[Double] = []
+  for i in 0..<length {
+    out.push(low2[i] - low1[i])
+  }
+  out
+}
+
+///|
+pub fn bandstop_fir_taps(
+  length~ : Int,
+  low_cutoff_hz~ : Double,
+  high_cutoff_hz~ : Double,
+  sample_rate~ : Double,
+) -> Array[Double] raise SpectrumError {
+  if low_cutoff_hz >= high_cutoff_hz {
+    raise InvalidArgument(message="low_cutoff must be less than high_cutoff")
+  }
+  let low1 = lowpass_taps(length~, cutoff_hz=low_cutoff_hz, sample_rate~)
+  let low2 = lowpass_taps(length~, cutoff_hz=high_cutoff_hz, sample_rate~)
+  let mid = (length - 1) / 2
+  let out : Array[Double] = []
+  for i in 0..<length {
+    let delta = if i == mid { 1.0 } else { 0.0 }
+    out.push(delta - (low2[i] - low1[i]))
+  }
+  out
+}

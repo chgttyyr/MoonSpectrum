@@ -4,6 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
+$env:Path = "$root\scripts\bin;" + $env:Path
 Push-Location $root
 try {
   Write-Host "MoonSpectrum acceptance gate"
@@ -64,10 +65,10 @@ try {
 
   Write-Host ""
   Write-Host "MoonBit checks:"
-  moon info
-  moon fmt --check
-  moon check --warn-list +73
-  moon test
+  moon check --deny-warn
+  moon fmt --deny-warn
+  moon info --deny-warn
+  moon test --deny-warn
 
   Write-Host ""
   Write-Host "CLI smoke:"
@@ -76,6 +77,10 @@ try {
   moon run cmd/main -- analyze examples/sine.csv --sample-rate 8
   moon run cmd/main -- window hann 4
   moon run cmd/main -- convolve examples/sine.csv examples/kernel.csv
+  moon run cmd/main -- stft examples/sine.csv --window-length 8 --hop-size 4 --window hann
+  moon run cmd/main -- psd examples/sine.csv --sample-rate 8
+  moon run cmd/main -- resample examples/sine.csv --target-length 16
+  moon run cmd/main -- biquad examples/sine.csv --type lowpass --cutoff 2 --sample-rate 8
 
   if (-not $SkipPublishDryRun) {
     Write-Host ""
