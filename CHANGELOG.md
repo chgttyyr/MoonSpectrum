@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 - Mooncakes release
+
+- Updated package metadata and release documentation for the Mooncakes publication.
+- Preserved the validated FFT, spectrum, filtering, resampling, CLI, and cross-platform CI coverage.
+
 ## 0.1.0 - OSC2026 proposal build
 
 - Added complex numbers, DFT, radix-2 FFT, inverse FFT, spectra, windows, convolution, moving average, and basic FIR tap design.

@@ -128,7 +128,7 @@ powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPubl
 - GitLink: <https://gitlink.org.cn/chgttyyr/MoonSpectrum>
 - Mooncakes: <https://mooncakes.io/docs/chgttyyr/MoonSpectrum>
 
-MoonSpectrum is published as the Mooncakes module `chgttyyr/MoonSpectrum@0.1.0`.
+MoonSpectrum is published as the Mooncakes module `chgttyyr/MoonSpectrum@0.1.1`.
 The `moon.mod` file is the source of truth for the package metadata shown on
 Mooncakes.
 
@@ -137,7 +137,7 @@ Mooncakes.
 - FFT currently requires power-of-two input length.
 - CSV parser intentionally handles simple single-column numeric fixtures.
 - Time zones, timestamps, streaming IO, STFT, IIR, and visualization are future work.
-- No native FFI is used in v0.1.0.
+- No native FFI is used in v0.1.1.
 
 ## Roadmap
 

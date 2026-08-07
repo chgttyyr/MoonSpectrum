@@ -7,7 +7,7 @@
 - GitHub 仓库：<https://github.com/chgttyyr/MoonSpectrum>
 - GitLink 仓库：<https://gitlink.org.cn/chgttyyr/MoonSpectrum>
 - Mooncakes 链接：<https://mooncakes.io/docs/chgttyyr/MoonSpectrum>
-- Mooncakes 版本：`chgttyyr/MoonSpectrum@0.1.0`
+- Mooncakes 版本：`chgttyyr/MoonSpectrum@0.1.1`
 - 许可证：Apache-2.0
 - 主要语言：MoonBit
 
@@ -33,7 +33,7 @@ MoonSpectrum 已完成科学信号处理基础库的首个可发布版本，包�
 - 可运行示例：`examples/` 下提供固定 CSV fixtures，CLI smoke test 可复现。
 - 测试：覆盖 FFT/IFFT、卷积、窗函数、滤波和边界条件。
 - CI：GitHub Actions 在 Ubuntu、macOS、Windows 上覆盖接口生成、格式检查、全后端 check/build/test，并提供 CLI smoke。
-- Mooncakes：已按 `moon.mod` 元数据发布为 `chgttyyr/MoonSpectrum@0.1.0`。
+- Mooncakes：已按 `moon.mod` 元数据发布为 `chgttyyr/MoonSpectrum@0.1.1`。
 - 可维护性：文档说明当前边界和后续扩展方向，避免与音频引擎绑定。
 
 ## 本地验收命令
@@ -79,7 +79,7 @@ moon publish
 ```powershell
 curl.exe -s -o NUL -w "%{http_code}" https://mooncakes.io/api/v0/modules/chgttyyr/MoonSpectrum
 curl.exe -s -o NUL -w "%{http_code}" https://mooncakes.io/docs/chgttyyr/MoonSpectrum
-curl.exe -s -o NUL -w "%{http_code}" https://mooncakes.io/docs/chgttyyr/MoonSpectrum@0.1.0
+curl.exe -s -o NUL -w "%{http_code}" https://mooncakes.io/docs/chgttyyr/MoonSpectrum@0.1.1
 ```
 
 上述三个地址均返回 `200`。
