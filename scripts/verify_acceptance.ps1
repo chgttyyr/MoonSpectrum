@@ -68,7 +68,7 @@ try {
   Write-Host "MoonBit checks:"
   moon fmt --check
   moon info
-  git diff --exit-code -- ':!**/*.mbti'
+  git diff --exit-code -- . ':(exclude)*.mbti'
   moon check --target all --warn-list +73
   moon build --target all
   moon test --target all
