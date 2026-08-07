@@ -15,7 +15,9 @@ pub fn stft(
     raise NonPowerOfTwo(length=window_length)
   }
   if signal.length() < window_length {
-    raise InvalidArgument(message="signal length must be at least window_length")
+    raise InvalidArgument(
+      message="signal length must be at least window_length",
+    )
   }
 
   let win = window(window_kind, window_length)

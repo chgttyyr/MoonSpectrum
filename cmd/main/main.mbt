@@ -37,10 +37,14 @@ fn print_help() -> Unit {
   println("  analyze <csv-file> --sample-rate <hz>")
   println("  window <rectangular|hann|hamming|blackman> <length>")
   println("  convolve <csv-file> <kernel-csv-file>")
-  println("  stft <csv-file> --window-length <N> --hop-size <M> --window <kind>")
+  println(
+    "  stft <csv-file> --window-length <N> --hop-size <M> --window <kind>",
+  )
   println("  psd <csv-file> --sample-rate <hz>")
   println("  resample <csv-file> --target-length <N>")
-  println("  biquad <csv-file> --type <lowpass|highpass|bandpass> --cutoff <hz> --sample-rate <hz>")
+  println(
+    "  biquad <csv-file> --type <lowpass|highpass|bandpass> --cutoff <hz> --sample-rate <hz>",
+  )
 }
 
 ///|
@@ -184,11 +188,7 @@ fn parse_double(input : StringView) -> Double raise {
 }
 
 ///|
-fn flag_int(
-  args : Array[String],
-  flag : String,
-  default : Int,
-) -> Int raise {
+fn flag_int(args : Array[String], flag : String, default : Int) -> Int raise {
   for i in 0..<args.length() {
     if args[i] == flag && i + 1 < args.length() {
       break parse_double(args[i + 1].to_string_view()).to_int()
@@ -199,11 +199,7 @@ fn flag_int(
 }
 
 ///|
-fn flag_string(
-  args : Array[String],
-  flag : String,
-  default : String,
-) -> String {
+fn flag_string(args : Array[String], flag : String, default : String) -> String {
   for i in 0..<args.length() {
     if args[i] == flag && i + 1 < args.length() {
       break args[i + 1]

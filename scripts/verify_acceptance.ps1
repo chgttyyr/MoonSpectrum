@@ -4,7 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
-$env:Path = "$root\scripts\bin;" + $env:Path
+$env:Path = "$env:USERPROFILE\.moon\bin;" + $env:Path
 Push-Location $root
 try {
   Write-Host "MoonSpectrum acceptance gate"
@@ -24,6 +24,7 @@ try {
     "moon.pkg",
     "cmd/main/main.mbt",
     ".github/workflows/ci.yml",
+    "docs/fixtures.md",
     "docs/competition/acceptance-checklist.md",
     "docs/competition/final-report.md",
     "docs/competition/release-checklist.md"
@@ -65,10 +66,12 @@ try {
 
   Write-Host ""
   Write-Host "MoonBit checks:"
-  moon check --deny-warn
-  moon fmt --deny-warn
-  moon info --deny-warn
-  moon test --deny-warn
+  moon fmt --check
+  moon info
+  git diff --exit-code
+  moon check --target all --warn-list +73
+  moon build --target all
+  moon test --target all
 
   Write-Host ""
   Write-Host "CLI smoke:"

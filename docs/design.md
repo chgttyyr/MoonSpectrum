@@ -28,9 +28,14 @@ The first FFT implementation supports radix-2 input lengths. Non-power-of-two in
 
 The CLI accepts simple single-column CSV fixture files. It is meant for smoke tests and demonstrations, not as a full data-cleaning tool.
 
+## Implemented extensions
+
+- STFT is implemented on top of `window`, `fft`, and `magnitude_spectrum`.
+- Periodogram PSD, single-sided PSD, linear/sinc resampling, and IIR biquad
+  filters are implemented without changing the original FFT/FIR APIs.
+
 ## Future extensions
 
-- STFT and spectrogram export can be layered on `window`, `fft`, and `magnitude_spectrum`.
-- IIR filters can be added next to the FIR functions without changing convolution.
+- Welch PSD, cross-channel analysis, and streaming processing.
 - WebAssembly visualization can consume CLI-style JSON output or call the root package directly.
 

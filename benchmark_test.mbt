@@ -1,3 +1,4 @@
+///|
 test "benchmark dsp functions" {
   // 1. FFT benchmark
   let signal = sine_wave(length=1024, sample_rate=1000.0, frequency=50.0)

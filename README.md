@@ -1,8 +1,10 @@
 # MoonSpectrum
 
+[![CI](https://github.com/chgttyyr/MoonSpectrum/actions/workflows/ci.yml/badge.svg)](https://github.com/chgttyyr/MoonSpectrum/actions/workflows/ci.yml)
+
 MoonSpectrum 是一个面向 MoonBit 生态的科学信号处理基础库。它提供复数运算、DFT/FFT、频谱分析、窗函数、卷积、基础 FIR 滤波和命令行分析工具，目标是补齐 MoonBit 在传感器数据、实验数据、振动信号、周期信号和教学验证中的基础算法能力。
 
-本项目不做音频播放、采集或设备后端，也不依赖 native FFI。当前版本优先保证算法清晰、测试可复现、跨后端可运行，后续再扩展 STFT 谱图、IIR 滤波、Welch PSD、重采样和 WebAssembly 可视化。
+本项目不做音频播放、采集或设备后端，也不依赖 native FFI。当前版本已覆盖 STFT、periodogram PSD、IIR 滤波和重采样；后续再扩展 Welch PSD、跨通道分析和 WebAssembly 可视化。
 
 ## Why
 
@@ -12,15 +14,54 @@ MoonBit 已经有一些音频、图形、矩阵和工程工具包，但通用科
 - 给 OSC2026 评审提供可直接运行的测试、示例数据和 CLI。
 - 给后续生态扩展留下清楚边界，而不是把音频引擎、数据框、可视化和控制系统混在一起。
 
+## Installation
+
+MoonSpectrum is a MoonBit module. The repository is the source distribution;
+the published module metadata and dependency version are recorded in
+`moon.mod`.
+
+### From the repository
+
+Install the current MoonBit toolchain from the official installer, then clone
+the repository and refresh its pinned dependency:
+
+```powershell
+# Windows PowerShell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+
+git clone https://github.com/chgttyyr/MoonSpectrum.git
+cd MoonSpectrum
+moon update
+moon check --target all
+```
+
+```bash
+# Linux or macOS
+curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+git clone https://github.com/chgttyyr/MoonSpectrum.git
+cd MoonSpectrum
+moon update
+moon check --target all
+```
+
+The competition review environment recommended MoonBit 0.10.3. The CI uses
+the official latest-toolchain installer and prints `moon version --all`; this
+keeps the workflow usable when the installer advances while retaining the
+0.10.3-compatible project commands. If starting a new copy instead of using
+the committed `moon.mod`, the equivalent dependency command is
+`moon add moonbitlang/x@0.4.45`.
+
 ## Features
 
 - `Complex` 复数类型：加减乘、缩放、幅值、近似比较。
 - DFT / radix-2 FFT / inverse FFT。
 - 幅度谱、功率谱、频率 bin、主频检测。
+- STFT、periodogram PSD、单边 PSD、线性重采样。
 - 信号生成：正弦波、方波、脉冲、线性 chirp、确定性白噪声。
 - 窗函数：Rectangular、Hann、Hamming、Blackman。
 - 卷积：线性卷积、循环卷积。
-- 基础滤波：移动平均、FIR 卷积滤波、低通/高通窗函数法 taps。
+- 基础滤波：移动平均、FIR taps、IIR biquad 低通/高通/带通。
 - CLI：`demo`、`fft`、`analyze`、`window`、`convolve`。
 
 ## Quick Start
@@ -62,8 +103,12 @@ The root package exports the public API. CLI code lives in `cmd/main` and uses t
 - `windows.mbt` - window functions and window application.
 - `convolution.mbt` - linear and circular convolution.
 - `filters.mbt` - moving average, FIR filtering, low/high-pass taps.
+- `stft.mbt`, `psd.mbt`, `resampling.mbt`, `iir_filters.mbt` - extended
+  scientific signal-processing primitives.
 - `cmd/main` - CLI entry point.
 - `examples` - small CSV fixtures for smoke tests.
+- `docs/fixtures.md` - fixture provenance, construction rules, and expected
+  numeric invariants.
 - `docs/competition` - OSC2026 proposal and acceptance material.
 
 ## Verification
@@ -71,8 +116,9 @@ The root package exports the public API. CLI code lives in `cmd/main` and uses t
 ```powershell
 moon info
 moon fmt --check
-moon check --warn-list +73
-moon test
+moon check --target all --warn-list +73
+moon build --target all
+moon test --target all
 powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPublishDryRun
 ```
 

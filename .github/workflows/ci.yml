@@ -1,36 +1,102 @@
-name: ci
+name: Check and Test
 
 on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
+env:
+  # The official installer is intentionally used instead of a cached local
+  # binary. It prints the resolved toolchain in the post-install step.
+  MOONBIT_INSTALL_VERSION: latest
+
 jobs:
   moonbit:
+    name: MoonBit (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install MoonBit on Unix
+        if: runner.os != 'Windows'
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Install MoonBit on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$HOME/.moon/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Install native build tools on Windows
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+
+      - name: Add Windows compiler to PATH
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          "C:\msys64\ucrt64\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Show toolchain and refresh dependencies
+        run: |
+          moon version --all
+          moon update
+
+      - name: Format and interface checks
+        run: |
+          moon fmt --check
+          moon info
+          git diff --exit-code
+
+      - name: Type check all backends
+        run: moon check --target all --warn-list +73
+
+      - name: Build all backends
+        run: moon build --target all
+
+      - name: Test all backends
+        run: moon test --target all
+
+  cli-smoke:
+    name: CLI smoke (Ubuntu)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Install MoonBit
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      - name: Setup custom moon wrapper
-        run: |
-          chmod +x scripts/bin/moon
-          echo "$PWD/scripts/bin" >> "$GITHUB_PATH"
-      - name: Refresh registry
+      - name: Refresh dependencies
         run: moon update
-      - name: Static check
-        run: moon check --deny-warn
-      - name: Format check
-        run: moon fmt --deny-warn
-      - name: Generate interfaces
-        run: moon info --deny-warn
-      - name: Tests
-        run: moon test --deny-warn
-      - name: CLI smoke
+      - name: Run documented examples
         run: |
           moon run cmd/main -- demo
           moon run cmd/main -- fft examples/sine.csv --sample-rate 8
           moon run cmd/main -- analyze examples/sine.csv --sample-rate 8
           moon run cmd/main -- window hann 4
           moon run cmd/main -- convolve examples/sine.csv examples/kernel.csv
+          moon run cmd/main -- stft examples/sine.csv --window-length 8 --hop-size 4 --window hann
+          moon run cmd/main -- psd examples/sine.csv --sample-rate 8
+          moon run cmd/main -- resample examples/sine.csv --target-length 16
+          moon run cmd/main -- biquad examples/sine.csv --type lowpass --cutoff 2 --sample-rate 8
