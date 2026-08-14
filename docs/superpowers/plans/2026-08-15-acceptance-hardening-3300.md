@@ -14,7 +14,7 @@
 
 **Files:** `README.md`, `scripts/build_proposal_pdf.py`
 
-- [ ] Replace the stale README release from `0.1.1` with `0.2.0`.
+- [x] Replace stale README release metadata and roadmap statements.
 - [ ] State that Welch PSD, spectral descriptors, correlation, and peak detection are implemented; keep only streaming, timestamps, and visualization as future work.
 - [ ] Update the proposal generator's scope, test-count, and roadmap text to describe the current implementation rather than the initial proposal.
 - [ ] Review UTF-8 rendering with `Get-Content -Encoding utf8` and run `git diff --check`.
@@ -60,4 +60,4 @@
 - [ ] Count project MoonBit source excluding build/cache/generated artifacts and confirm it is at least 3300 lines.
 - [ ] Run `moon fmt --check`, `moon info`, `moon check --target all --warn-list +73`, `moon build --target all`, `moon test --target all`, and all CLI smoke commands with the latest toolchain.
 - [ ] Run `scripts/verify_acceptance.ps1` with strict external-command checking.
-- [ ] Commit with only `chgttyyr`, merge to `main`, push GitHub and GitLink `main/master`, publish Mooncakes `0.2.0`, and verify remote SHAs, default branches, CI success, and Mooncakes build status.
+- [ ] Commit with only `chgttyyr`, merge to `main`, push GitHub and GitLink `main/master`, publish Mooncakes `0.2.1`, and verify remote SHAs, default branches, CI success, and Mooncakes build status.

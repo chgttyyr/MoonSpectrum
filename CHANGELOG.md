@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 - Acceptance hardening and analysis expansion
+
+- Added GitLink CI and synchronized acceptance documentation.
+- Added robust signal quality, sensor calibration, event detection, filter
+  response, and spectrogram summary APIs with deterministic tests.
+- Updated README, proposal-generator, fixture, and release metadata.
+
 ## 0.2.0 - Scientific analysis expansion
 
 - Added descriptive statistics, centering, linear detrending, peak normalization, quantiles, and moving RMS.
