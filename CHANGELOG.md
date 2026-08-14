@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 - Toolchain compatibility correction
+
+- Added the strict source-format checker while preserving MoonBit 0.10.3 CLI
+  package compatibility.
+- Corrected the proposal material to report all 63 deterministic tests.
+
 ## 0.2.1 - Acceptance hardening and analysis expansion
 
 - Added GitLink CI and synchronized acceptance documentation.

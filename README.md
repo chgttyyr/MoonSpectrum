@@ -143,7 +143,7 @@ moon run cmd/main -- peaks examples/dual-tone.csv --threshold 0.4 --min-distance
 - GitLink: <https://gitlink.org.cn/chgttyyr/MoonSpectrum>
 - Mooncakes: <https://mooncakes.io/docs/chgttyyr/MoonSpectrum>
 
-MoonSpectrum is published as the Mooncakes module `chgttyyr/MoonSpectrum@0.2.1`.
+MoonSpectrum is published as the Mooncakes module `chgttyyr/MoonSpectrum@0.2.2`.
 The `moon.mod` file is the source of truth for the package metadata shown on
 Mooncakes.
 
@@ -152,7 +152,7 @@ Mooncakes.
 - FFT currently requires power-of-two input length.
 - CSV parser intentionally handles simple single-column numeric fixtures.
 - Time zones, timestamps, streaming IO, and visualization are future work.
-- No native FFI is used in v0.2.1.
+- No native FFI is used in v0.2.2.
 
 ## Roadmap
 
