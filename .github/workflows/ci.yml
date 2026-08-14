@@ -68,6 +68,7 @@ jobs:
           # toolchain-specific trailing whitespace while still failing on any
           # source, package, or documentation drift.
           git diff --exit-code -- . ':(exclude)*.mbti'
+          git diff --ignore-space-at-eol --ignore-blank-lines --exit-code -- '*.mbti'
 
       - name: Type check all backends
         run: moon check --target all --warn-list +73
@@ -103,3 +104,7 @@ jobs:
           moon run cmd/main -- psd examples/sine.csv --sample-rate 8
           moon run cmd/main -- resample examples/sine.csv --target-length 16
           moon run cmd/main -- biquad examples/sine.csv --type lowpass --cutoff 2 --sample-rate 8
+          moon run cmd/main -- stats examples/offset.csv
+          moon run cmd/main -- correlate examples/dual-tone.csv --max-lag 4
+          moon run cmd/main -- welch examples/sine.csv --sample-rate 8 --segment-length 8 --overlap 0.5 --window hann
+          moon run cmd/main -- peaks examples/dual-tone.csv --threshold 0.4 --min-distance 2

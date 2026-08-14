@@ -88,6 +88,71 @@ pub fn white_noise(
 }
 
 ///|
+pub fn triangle_wave(
+  length~ : Int,
+  sample_rate~ : Double,
+  frequency~ : Double,
+  amplitude? : Double = 1.0,
+) -> Array[Double] raise SpectrumError {
+  validate_signal_args(length, sample_rate)
+  if frequency <= 0.0 || frequency > sample_rate / 2.0 {
+    raise InvalidArgument(message="frequency must be between zero and Nyquist")
+  }
+  let out : Array[Double] = []
+  for i in 0..<length {
+    let phase = Double::from_int(i) * frequency / sample_rate
+    let cycle = phase - phase.floor()
+    let value = if cycle < 0.25 {
+      4.0 * cycle
+    } else if cycle < 0.75 {
+      2.0 - 4.0 * cycle
+    } else {
+      -4.0 + 4.0 * cycle
+    }
+    out.push(amplitude * value)
+  }
+  out
+}
+
+///|
+pub fn sawtooth_wave(
+  length~ : Int,
+  sample_rate~ : Double,
+  frequency~ : Double,
+  amplitude? : Double = 1.0,
+) -> Array[Double] raise SpectrumError {
+  validate_signal_args(length, sample_rate)
+  if frequency <= 0.0 || frequency > sample_rate / 2.0 {
+    raise InvalidArgument(message="frequency must be between zero and Nyquist")
+  }
+  let out : Array[Double] = []
+  for i in 0..<length {
+    let phase = Double::from_int(i) * frequency / sample_rate
+    let cycle = phase - phase.floor()
+    out.push(amplitude * (2.0 * cycle - 1.0))
+  }
+  out
+}
+
+///|
+pub fn pulse_train(
+  length~ : Int,
+  period~ : Int,
+  amplitude? : Double = 1.0,
+) -> Array[Double] raise SpectrumError {
+  if length <= 0 || period <= 0 {
+    raise InvalidArgument(message="length and period must be positive")
+  }
+  let out = Array::make(length, 0.0)
+  for i in 0..<length {
+    if i % period == 0 {
+      out[i] = amplitude
+    }
+  }
+  out
+}
+
+///|
 fn validate_signal_args(
   length : Int,
   sample_rate : Double,

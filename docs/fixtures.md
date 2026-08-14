@@ -10,6 +10,8 @@ dataset and contain no personal or licensed user data.
 | `pulse.csv` | One unit impulse at index 3 in an 8-sample frame | Impulse/FFT smoke tests | The input has exactly one non-zero sample. |
 | `vibration.csv` | 16 manually chosen bounded samples with a smooth oscillatory shape | CLI analysis demonstration | Values are finite and remain in the documented `[-1, 1]` range. |
 | `kernel.csv` | Symmetric moving-average kernel `[0.25, 0.5, 0.25]` | Linear convolution CLI example | Coefficients sum to 1 and preserve DC in the interior. |
+| `offset.csv` | Four samples from an affine trend `[1, 3, 5, 7]` | Statistics and detrending CLI examples | Mean is 4 and the linear detrended residual is zero. |
+| `dual-tone.csv` | Eight bounded samples with separated local maxima | Correlation and peak-detection CLI examples | Peaks above 0.4 occur at indices 1 and 5. |
 
 The executable commands read one numeric value per line. This intentionally
 small format keeps the examples reproducible across MoonBit backends and

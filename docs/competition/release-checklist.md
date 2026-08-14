@@ -30,4 +30,4 @@ curl.exe -I -L https://mooncakes.io/docs/chgttyyr/MoonSpectrum
 curl.exe -s -L https://mooncakes.io/api/v0/modules/chgttyyr/MoonSpectrum
 ```
 
-发布成功。`chgttyyr/MoonSpectrum@0.1.1` 已在 Mooncakes API 和文档页返回 HTTP 200。
+发布成功。`chgttyyr/MoonSpectrum@0.2.0` 已在 Mooncakes API 和文档页返回 HTTP 200。

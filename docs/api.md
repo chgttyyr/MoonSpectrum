@@ -39,7 +39,29 @@ let filtered = fir_filter(weighted, taps)
 
 Low-pass and high-pass taps require odd tap length and a cutoff below Nyquist.
 
-## Errors
+## Error handling
+
+## Statistics and preprocessing
+
+`signal_stats` returns count, mean, population variance, standard deviation,
+RMS, minimum, maximum, and peak-to-peak range. `center` removes the mean,
+`detrend_linear` removes the least-squares affine trend, and `normalize_peak`
+scales the largest absolute sample to one.
+
+## Correlation and peaks
+
+`autocorrelation(signal, max_lag)` returns non-negative lag values. Positive
+cross-correlation lag compares `signal[i]` with `other[i + lag]`.
+`normalized_correlation` divides autocorrelation by the zero-lag energy.
+`find_peaks` returns local maxima ordered by descending magnitude and can apply
+an amplitude threshold and minimum index spacing.
+
+## Welch PSD
+
+`welch_psd` divides a signal into overlapping power-of-two segments, applies a
+selected window, averages single-sided periodograms, and returns matching
+frequency and PSD arrays. The overlap is a fraction in `[0, 1)` and short or
+invalid segments raise `SpectrumError`.
 
 Common errors:
 

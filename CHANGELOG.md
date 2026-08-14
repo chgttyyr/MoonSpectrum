@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 - Scientific analysis expansion
+
+- Added descriptive statistics, centering, linear detrending, peak normalization, quantiles, and moving RMS.
+- Added auto/cross/full correlation, normalized correlation, local peak detection, and spectral descriptors.
+- Added Welch PSD, spectral summaries, window gain metrics, dynamic range, SNR, error metrics, and signal framing.
+- Added FFT-based linear convolution, envelope following, triangle/sawtooth/pulse-train generators, notch and all-pass biquads.
+- Added `stats`, `correlate`, `welch`, and `peaks` CLI commands with deterministic fixtures.
+- Hardened acceptance exit-code handling, public interface drift checking, Windows native prerequisites, and documentation consistency.
+
 ## 0.1.1 - Mooncakes release
 
 - Updated package metadata and release documentation for the Mooncakes publication.
