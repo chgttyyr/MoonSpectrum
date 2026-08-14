@@ -6,6 +6,9 @@
 - Added robust signal quality, sensor calibration, event detection, filter
   response, and spectrogram summary APIs with deterministic tests.
 - Updated README, proposal-generator, fixture, and release metadata.
+- Restored the backward-compatible executable package declaration for MoonBit
+  0.10.3 and added an explicit source-format verification script for modern
+  formatters.
 
 ## 0.2.0 - Scientific analysis expansion
 

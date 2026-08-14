@@ -172,7 +172,7 @@ def main():
         ],
         [
             para("质量验证", styles["body"]),
-            para("52 个 MoonBit 测试覆盖 FFT/IFFT、卷积、窗函数、滤波、统计、频谱、事件检测和边界条件；CLI smoke 覆盖基础与扩展分析命令。", styles["body"]),
+            para("63 个 MoonBit 测试覆盖 FFT/IFFT、卷积、窗函数、滤波、统计、频谱、事件检测、校准、谱图和边界条件；CLI smoke 覆盖基础与扩展分析命令。", styles["body"]),
         ],
         [
             para("参赛材料", styles["body"]),

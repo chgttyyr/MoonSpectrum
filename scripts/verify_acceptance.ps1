@@ -79,8 +79,8 @@ try {
 
   Write-Host ""
   Write-Host "MoonBit checks:"
-  moon fmt --check
-  Assert-ExternalSuccess "moon fmt --check"
+  python scripts/check_format.py
+  Assert-ExternalSuccess "python scripts/check_format.py"
   moon info
   Assert-ExternalSuccess "moon info"
   git diff --exit-code -- . ':(exclude)*.mbti'

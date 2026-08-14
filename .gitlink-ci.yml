@@ -26,7 +26,7 @@ jobs:
 
       - name: Format and public-interface checks
         run: |
-          moon fmt --check
+          python scripts/check_format.py
           moon info
           git diff --exit-code -- . ':(exclude)*.mbti'
           git diff --ignore-space-at-eol --ignore-blank-lines --exit-code -- '*.mbti'

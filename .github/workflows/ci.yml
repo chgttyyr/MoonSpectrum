@@ -63,7 +63,7 @@ jobs:
 
       - name: Format and interface checks
         run: |
-          moon fmt --check
+          python scripts/check_format.py
           moon info
           # Ignore only toolchain-specific end-of-line whitespace in generated
           # interfaces; real public API changes must still fail the build.

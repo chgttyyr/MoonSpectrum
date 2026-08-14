@@ -48,9 +48,12 @@ moon update
 moon check --target all
 ```
 
-The competition notice recommended MoonBit 0.10.3. The repository now uses
-the current official stable toolchain because its `moon.pkg` executable
-declaration is not accepted by older 0.10.3 binaries. CI prints
+The competition notice recommended MoonBit 0.10.3. The CLI package keeps the
+backward-compatible `options("is-main": true)` declaration, so it works with
+the committee toolchain and newer official releases. Because newer formatters
+try to migrate that legacy declaration, CI uses `scripts/check_format.py`: it
+runs the official formatter against every `.mbt` source and structurally
+checks the intentional legacy package file. CI prints
 `moon version --all` so the exact compiler is visible. If starting a new copy
 instead of using the committed `moon.mod`, the equivalent dependency command is
 `moon add moonbitlang/x@0.4.45`.
@@ -118,7 +121,7 @@ The root package exports the public API. CLI code lives in `cmd/main` and uses t
 
 ```powershell
 moon info
-moon fmt --check
+python scripts/check_format.py
 moon check --target all --warn-list +73
 moon build --target all
 moon test --target all
