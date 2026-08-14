@@ -14,11 +14,12 @@
 - Installation instructions covering the official MoonBit toolchain and the pinned dependency.
 - Fixture provenance and numeric invariants documented in `docs/fixtures.md`.
 - Runnable MoonBit tests.
-- Numerical tests for statistics, correlation, Welch PSD, spectral descriptors, framing, and filters.
+- Numerical tests for statistics, correlation, Welch PSD, spectral descriptors, framing, filters, event detection, filter responses, and spectrogram summaries.
 - CLI examples using checked fixture data.
 - CLI smoke coverage for `stats`, `correlate`, `welch`, and `peaks`.
 - CI workflow for format, check, tests, and CLI smoke.
 - CI workflow for all-backend check, build, and test on Ubuntu, macOS, and Windows.
+- GitLink `.gitlink-ci.yml` workflow with equivalent backend and CLI validation.
 - One-page Chinese proposal PDF under `docs/competition/`.
 - Mooncakes overlap search record under `docs/competition/mooncakes-search.md`.
 - Final report under `docs/competition/final-report.md`.

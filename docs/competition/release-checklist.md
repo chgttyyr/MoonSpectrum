@@ -10,6 +10,7 @@
 - [x] 可运行测试
 - [x] 可运行 CLI 示例
 - [x] GitHub Actions CI（格式、接口、全后端 check/build/test、CLI smoke）
+- [x] GitLink `.gitlink-ci.yml` 替代 CI（格式、接口、全后端 check/build/test、CLI smoke）
 - [x] fixture 来源与数值不变量说明
 - [x] 一页中文申报 PDF
 - [x] Mooncakes 检索记录

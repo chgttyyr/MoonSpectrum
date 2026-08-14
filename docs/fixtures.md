@@ -27,6 +27,8 @@ than only checking array lengths:
 - sinc interpolation preserves exact integer sample locations;
 - biquad responses and FIR band-pass/band-stop tap sums are checked with
   tolerance-based assertions.
+- filter impulse/frequency responses and spectrogram dominant bins are checked
+  with deterministic power-of-two fixtures.
 
 These fixtures and invariants are version-controlled so reviewers can rerun
 the same commands without downloading an external dataset.

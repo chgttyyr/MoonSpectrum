@@ -12,9 +12,15 @@ pub fn approx_equal(Double, Double, eps? : Double) -> Bool
 
 pub fn autocorrelation(ArrayView[Double], Int) -> Array[Double] raise SpectrumError
 
+pub fn autocovariance(ArrayView[Double], Int) -> Double raise SpectrumError
+
 pub fn bandpass_fir_taps(length~ : Int, low_cutoff_hz~ : Double, high_cutoff_hz~ : Double, sample_rate~ : Double) -> Array[Double] raise SpectrumError
 
 pub fn bandstop_fir_taps(length~ : Int, low_cutoff_hz~ : Double, high_cutoff_hz~ : Double, sample_rate~ : Double) -> Array[Double] raise SpectrumError
+
+pub fn baseline_corrected(ArrayView[Double]) -> (Double, Array[Double]) raise SpectrumError
+
+pub fn biquad_frequency_response(Biquad, sample_rate~ : Double, fft_length~ : Int) -> FrequencyResponse raise SpectrumError
 
 pub fn center(ArrayView[Double]) -> Array[Double] raise SpectrumError
 
@@ -22,15 +28,21 @@ pub fn chirp(length~ : Int, sample_rate~ : Double, start_hz~ : Double, end_hz~ :
 
 pub fn circular_convolve(ArrayView[Double], ArrayView[Double]) -> Array[Double] raise SpectrumError
 
+pub fn clip_signal(ArrayView[Double], Double, Double) -> Array[Double] raise SpectrumError
+
 pub fn complex(re~ : Double, im~ : Double) -> Complex
 
 pub fn convolve(ArrayView[Double], ArrayView[Double]) -> Array[Double] raise SpectrumError
 
 pub fn correlation_coefficient(ArrayView[Double], ArrayView[Double]) -> Double raise SpectrumError
 
+pub fn covariance(ArrayView[Double], ArrayView[Double]) -> Double raise SpectrumError
+
 pub fn crest_factor(ArrayView[Double]) -> Double raise SpectrumError
 
 pub fn cross_correlation(ArrayView[Double], ArrayView[Double], Int) -> Array[Double] raise SpectrumError
+
+pub fn detect_outliers(ArrayView[Double], z_threshold~ : Double) -> Array[Int] raise SpectrumError
 
 pub fn detrend_linear(ArrayView[Double]) -> Array[Double] raise SpectrumError
 
@@ -52,6 +64,10 @@ pub fn find_peaks(ArrayView[Double], threshold? : Double, min_distance? : Int) -
 
 pub fn fir_filter(ArrayView[Double], ArrayView[Double]) -> Array[Double] raise SpectrumError
 
+pub fn fir_frequency_response(ArrayView[Double], sample_rate~ : Double, fft_length~ : Int) -> FrequencyResponse raise SpectrumError
+
+pub fn fir_impulse_response(ArrayView[Double], Int) -> Array[Double] raise SpectrumError
+
 pub fn frame_signal(ArrayView[Double], frame_length~ : Int, hop_size~ : Int) -> Array[Array[Double]] raise SpectrumError
 
 pub fn frequency_bins(Int, Double) -> Array[Double] raise SpectrumError
@@ -66,9 +82,13 @@ pub fn impulse(length~ : Int, index? : Int, amplitude? : Double) -> Array[Double
 
 pub fn integrate_trapezoid(ArrayView[Double], Double) -> Double raise SpectrumError
 
+pub fn interquartile_range(ArrayView[Double]) -> Double raise SpectrumError
+
 pub fn lowpass_taps(length~ : Int, cutoff_hz~ : Double, sample_rate~ : Double) -> Array[Double] raise SpectrumError
 
 pub fn magnitude_spectrum(ArrayView[Complex]) -> Array[Double]
+
+pub fn mean_absolute_deviation(ArrayView[Double]) -> Double raise SpectrumError
 
 pub fn mean_absolute_error(ArrayView[Double], ArrayView[Double]) -> Double raise SpectrumError
 
@@ -100,13 +120,21 @@ pub fn quantile(ArrayView[Double], Double) -> Double raise SpectrumError
 
 pub fn real_signal(ArrayView[Double]) -> Array[Complex]
 
+pub fn remove_baseline(ArrayView[Double], Double) -> Array[Double] raise SpectrumError
+
 pub fn resample_linear(ArrayView[Double], Int) -> Array[Double] raise SpectrumError
 
 pub fn resample_sinc(ArrayView[Double], Int) -> Array[Double] raise SpectrumError
 
+pub fn response_peak(FrequencyResponse) -> Peak raise SpectrumError
+
+pub fn robust_z_scores(ArrayView[Double]) -> Array[Double] raise SpectrumError
+
 pub fn root_mean_square_error(ArrayView[Double], ArrayView[Double]) -> Double raise SpectrumError
 
 pub fn sawtooth_wave(length~ : Int, sample_rate~ : Double, frequency~ : Double, amplitude? : Double) -> Array[Double] raise SpectrumError
+
+pub fn scale_signal(ArrayView[Double], input_min~ : Double, input_max~ : Double, output_min~ : Double, output_max~ : Double) -> Array[Double] raise SpectrumError
 
 pub fn signal_energy(ArrayView[Double]) -> Double raise SpectrumError
 
@@ -138,9 +166,19 @@ pub fn spectral_slope(ArrayView[Double]) -> Double raise SpectrumError
 
 pub fn spectral_summary(ArrayView[Complex], Double) -> SpectralSummary raise SpectrumError
 
+pub fn spectrogram(ArrayView[Double], WindowKind, window_length~ : Int, hop_size~ : Int, sample_rate~ : Double) -> SpectrogramResult raise SpectrumError
+
+pub fn spectrogram_dominant_peaks(SpectrogramResult) -> Array[Peak] raise SpectrumError
+
+pub fn spectrogram_energy(SpectrogramResult) -> Array[Double]
+
+pub fn spectrogram_loudest_frame(SpectrogramResult) -> Int raise SpectrumError
+
 pub fn square_wave(length~ : Int, sample_rate~ : Double, frequency~ : Double, amplitude? : Double) -> Array[Double] raise SpectrumError
 
 pub fn stft(ArrayView[Double], WindowKind, Int, Int) -> Array[Array[Complex]] raise SpectrumError
+
+pub fn threshold_crossings(ArrayView[Double], Double) -> Array[Int] raise SpectrumError
 
 pub fn triangle_wave(length~ : Int, sample_rate~ : Double, frequency~ : Double, amplitude? : Double) -> Array[Double] raise SpectrumError
 
@@ -153,6 +191,8 @@ pub fn window(WindowKind, Int) -> Array[Double] raise SpectrumError
 pub fn window_coherent_gain(WindowKind, Int) -> Double raise SpectrumError
 
 pub fn window_noise_bandwidth(WindowKind, Int) -> Double raise SpectrumError
+
+pub fn zero_crossing_indices(ArrayView[Double]) -> Array[Int] raise SpectrumError
 
 pub fn zero_crossing_rate(ArrayView[Double]) -> Double raise SpectrumError
 
@@ -197,6 +237,11 @@ pub fn Complex::scale(Self, Double) -> Self
 pub fn Complex::sub(Self, Self) -> Self
 pub fn Complex::zero() -> Self
 
+pub(all) struct FrequencyResponse {
+  frequencies : Array[Double]
+  magnitude : Array[Double]
+} derive(Eq, ToJson, @debug.Debug)
+
 pub(all) struct Peak {
   index : Int
   frequency : Double
@@ -225,6 +270,12 @@ pub(all) struct SpectralSummary {
   flatness : Double
   entropy : Double
   rolloff : Double
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct SpectrogramResult {
+  frequencies : Array[Double]
+  frame_times : Array[Double]
+  magnitudes : Array[Array[Double]]
 } derive(Eq, ToJson, @debug.Debug)
 
 pub(all) struct WelchResult {

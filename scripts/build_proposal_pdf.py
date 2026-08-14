@@ -155,7 +155,7 @@ def main():
         ),
         (
             "边界与扩展",
-            "本期不做完整音频引擎、不做大型矩阵计算、不依赖 native FFI，优先保证算法清晰、测试充分、跨后端可运行。后续扩展方向包括 STFT/谱图、IIR 滤波、Welch PSD、重采样、更多 CSV/JSON 数据管线和 WebAssembly 可视化 Demo。",
+            "本期不做完整音频引擎、不做大型矩阵计算、不依赖 native FFI，优先保证算法清晰、测试充分、跨后端可运行。当前已实现 STFT/谱图、IIR 滤波、Welch PSD、重采样、统计质量指标和事件检测；后续扩展方向包括流式 CSV/JSON 数据管线、时间戳支持和 WebAssembly 可视化 Demo。",
         ),
     ]
 
@@ -172,7 +172,7 @@ def main():
         ],
         [
             para("质量验证", styles["body"]),
-            para("10 个 MoonBit 测试覆盖 FFT/IFFT、卷积、窗函数、滤波和边界条件；CLI smoke 覆盖 demo/fft/analyze/window/convolve。", styles["body"]),
+            para("52 个 MoonBit 测试覆盖 FFT/IFFT、卷积、窗函数、滤波、统计、频谱、事件检测和边界条件；CLI smoke 覆盖基础与扩展分析命令。", styles["body"]),
         ],
         [
             para("参赛材料", styles["body"]),
@@ -208,7 +208,7 @@ def main():
         ],
         [
             para("中期", styles["body"]),
-            para("补充 STFT/谱图、Welch PSD、IIR 滤波、重采样和更完整的 CSV/JSON 数据处理管线。", styles["body"]),
+            para("补充流式 CSV/JSON 数据处理、时间戳语义和 WebAssembly 可视化 Demo。", styles["body"]),
         ],
         [
             para("后续", styles["body"]),

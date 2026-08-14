@@ -32,8 +32,8 @@ MoonSpectrum 已完成科学信号处理基础库的首个可发布版本，包�
 - MoonBit 为主体：核心库与 CLI 均为 MoonBit 实现。
 - README：包含项目目标、功能、示例命令、API 草图、边界和路线图。
 - 可运行示例：`examples/` 下提供固定 CSV fixtures，CLI smoke test 可复现。
-- 测试：覆盖 FFT/IFFT、卷积、窗函数、滤波、统计、相关、Welch PSD、频谱特征、分帧和边界条件。
-- CI：GitHub Actions 在 Ubuntu、macOS、Windows 上覆盖接口生成、格式检查、全后端 check/build/test，并提供 CLI smoke。
+- 测试：覆盖 FFT/IFFT、卷积、窗函数、滤波、统计、相关、Welch PSD、频谱特征、分帧、事件检测、滤波器频响、谱图和边界条件。
+- CI：GitHub Actions 在 Ubuntu、macOS、Windows 上覆盖接口生成、格式检查、全后端 check/build/test，并提供 CLI smoke；GitLink 通过 `.gitlink-ci.yml` 提供同等 Ubuntu 验收流水线。
 - Mooncakes：本次变更后按 `moon.mod` 元数据发布为 `chgttyyr/MoonSpectrum@0.2.0`。
 - 可维护性：文档说明当前边界和后续扩展方向，避免与音频引擎绑定。
 

@@ -4,7 +4,7 @@
 
 MoonSpectrum 是一个面向 MoonBit 生态的科学信号处理基础库。它提供复数运算、DFT/FFT、频谱分析、窗函数、卷积、基础 FIR 滤波和命令行分析工具，目标是补齐 MoonBit 在传感器数据、实验数据、振动信号、周期信号和教学验证中的基础算法能力。
 
-本项目不做音频播放、采集或设备后端，也不依赖 native FFI。当前版本已覆盖 STFT、periodogram PSD、IIR 滤波和重采样；后续再扩展 Welch PSD、跨通道分析和 WebAssembly 可视化。
+本项目不做音频播放、采集或设备后端，也不依赖 native FFI。当前版本已覆盖 STFT、periodogram/Welch PSD、IIR 滤波、重采样、跨通道相关分析和频谱特征；后续再扩展流式输入、时间戳管线和 WebAssembly 可视化。
 
 ## Why
 
@@ -48,11 +48,11 @@ moon update
 moon check --target all
 ```
 
-The competition review environment recommended MoonBit 0.10.3. The CI uses
-the official latest-toolchain installer and prints `moon version --all`; this
-keeps the workflow usable when the installer advances while retaining the
-0.10.3-compatible project commands. If starting a new copy instead of using
-the committed `moon.mod`, the equivalent dependency command is
+The competition notice recommended MoonBit 0.10.3. The repository now uses
+the current official stable toolchain because its `moon.pkg` executable
+declaration is not accepted by older 0.10.3 binaries. CI prints
+`moon version --all` so the exact compiler is visible. If starting a new copy
+instead of using the committed `moon.mod`, the equivalent dependency command is
 `moon add moonbitlang/x@0.4.45`.
 
 ## Features
@@ -140,7 +140,7 @@ moon run cmd/main -- peaks examples/dual-tone.csv --threshold 0.4 --min-distance
 - GitLink: <https://gitlink.org.cn/chgttyyr/MoonSpectrum>
 - Mooncakes: <https://mooncakes.io/docs/chgttyyr/MoonSpectrum>
 
-MoonSpectrum is published as the Mooncakes module `chgttyyr/MoonSpectrum@0.1.1`.
+MoonSpectrum is published as the Mooncakes module `chgttyyr/MoonSpectrum@0.2.0`.
 The `moon.mod` file is the source of truth for the package metadata shown on
 Mooncakes.
 
