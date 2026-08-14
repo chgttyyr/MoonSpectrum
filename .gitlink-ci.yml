@@ -1,0 +1,48 @@
+run-name: MoonSpectrum validation
+name: MoonBit acceptance CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install MoonBit stable toolchain
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Show toolchain and update dependencies
+        run: |
+          moon version --all
+          moon update
+
+      - name: Format and public-interface checks
+        run: |
+          moon fmt --check
+          moon info
+          git diff --exit-code -- . ':(exclude)*.mbti'
+          git diff --ignore-space-at-eol --ignore-blank-lines --exit-code -- '*.mbti'
+
+      - name: Check, build, and test every backend
+        run: |
+          moon check --target all --warn-list +73
+          moon build --target all
+          moon test --target all
+
+      - name: Run deterministic CLI smoke tests
+        run: |
+          moon run cmd/main -- stats examples/offset.csv
+          moon run cmd/main -- stft examples/sine.csv --window-length 8 --hop-size 4 --window hann
+          moon run cmd/main -- psd examples/sine.csv --sample-rate 8
+          moon run cmd/main -- resample examples/sine.csv --target-length 16
+          moon run cmd/main -- biquad examples/sine.csv --type lowpass --cutoff 2 --sample-rate 8
+          moon run cmd/main -- welch examples/sine.csv --sample-rate 8 --segment-length 8 --overlap 0.5 --window hann
+          moon run cmd/main -- peaks examples/dual-tone.csv --threshold 0.4 --min-distance 2

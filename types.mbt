@@ -53,6 +53,19 @@ pub(all) struct SpectralSummary {
 } derive(Debug, Eq, ToJson)
 
 ///|
+pub(all) struct FrequencyResponse {
+  frequencies : Array[Double]
+  magnitude : Array[Double]
+} derive(Debug, Eq, ToJson)
+
+///|
+pub(all) struct SpectrogramResult {
+  frequencies : Array[Double]
+  frame_times : Array[Double]
+  magnitudes : Array[Array[Double]]
+} derive(Debug, Eq, ToJson)
+
+///|
 pub(all) suberror SpectrumError {
   EmptySignal
   LengthMismatch
