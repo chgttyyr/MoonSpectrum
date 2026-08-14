@@ -34,6 +34,9 @@ git clone https://github.com/chgttyyr/MoonSpectrum.git
 cd MoonSpectrum
 moon update
 moon check --target all
+
+# For Windows native validation, install MSYS2 UCRT64 GCC and add
+# C:\\msys64\\ucrt64\\bin to PATH before running the all-backend commands.
 ```
 
 ```bash
@@ -62,7 +65,7 @@ the committed `moon.mod`, the equivalent dependency command is
 - 窗函数：Rectangular、Hann、Hamming、Blackman。
 - 卷积：线性卷积、循环卷积。
 - 基础滤波：移动平均、FIR taps、IIR biquad 低通/高通/带通。
-- CLI：`demo`、`fft`、`analyze`、`window`、`convolve`。
+- CLI：`demo`、`fft`、`analyze`、`window`、`convolve`、`stft`、`psd`、`resample`、`biquad`、`stats`、`correlate`、`welch`、`peaks`。
 
 ## Quick Start
 
@@ -122,6 +125,15 @@ moon test --target all
 powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPublishDryRun
 ```
 
+The extended analysis commands are also covered by deterministic smoke tests:
+
+```powershell
+moon run cmd/main -- stats examples/offset.csv
+moon run cmd/main -- correlate examples/dual-tone.csv --max-lag 4
+moon run cmd/main -- welch examples/sine.csv --sample-rate 8 --segment-length 8 --overlap 0.5 --window hann
+moon run cmd/main -- peaks examples/dual-tone.csv --threshold 0.4 --min-distance 2
+```
+
 ## Release Links
 
 - GitHub: <https://github.com/chgttyyr/MoonSpectrum>
@@ -136,17 +148,15 @@ Mooncakes.
 
 - FFT currently requires power-of-two input length.
 - CSV parser intentionally handles simple single-column numeric fixtures.
-- Time zones, timestamps, streaming IO, STFT, IIR, and visualization are future work.
-- No native FFI is used in v0.1.1.
+- Time zones, timestamps, streaming IO, and visualization are future work.
+- No native FFI is used in v0.2.0.
 
 ## Roadmap
 
-- STFT and spectrogram data export.
-- Welch PSD and cross-correlation.
-- IIR biquad filters.
-- Resampling and interpolation helpers.
+- Cross-channel correlation and streaming window processing.
+- Robust CSV/JSON data ingestion and timestamp-aware analysis.
 - Browser/WebAssembly demo for frequency-domain visualization.
-- More robust CSV/JSON data pipeline.
+- Additional statistical estimators and calibration helpers.
 
 ## License
 

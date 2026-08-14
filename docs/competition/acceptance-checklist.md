@@ -14,7 +14,9 @@
 - Installation instructions covering the official MoonBit toolchain and the pinned dependency.
 - Fixture provenance and numeric invariants documented in `docs/fixtures.md`.
 - Runnable MoonBit tests.
+- Numerical tests for statistics, correlation, Welch PSD, spectral descriptors, framing, and filters.
 - CLI examples using checked fixture data.
+- CLI smoke coverage for `stats`, `correlate`, `welch`, and `peaks`.
 - CI workflow for format, check, tests, and CLI smoke.
 - CI workflow for all-backend check, build, and test on Ubuntu, macOS, and Windows.
 - One-page Chinese proposal PDF under `docs/competition/`.
@@ -29,6 +31,9 @@
 powershell -ExecutionPolicy Bypass -File scripts\verify_acceptance.ps1 -SkipPublishDryRun
 ```
 
-The script verifies required files, commit count, Mooncakes keyword search, `moon info`,
+The script verifies required files, contributor history, Mooncakes availability, strict
+external-command exit codes, normalized public-interface drift, `moon info`,
 `moon fmt --check`, `moon check --target all --warn-list +73`, `moon build --target all`,
-`moon test --target all`, and CLI smoke commands.
+`moon test --target all`, and all documented CLI smoke commands. Windows native
+validation requires MSYS2 UCRT64 GCC on the local machine; GitHub Actions installs
+the same compiler family automatically.

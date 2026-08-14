@@ -95,6 +95,58 @@ pub fn Biquad::bandpass(
 }
 
 ///|
+pub fn Biquad::notch(
+  cutoff_hz : Double,
+  sample_rate : Double,
+  q? : Double = 0.707,
+) -> Biquad raise SpectrumError {
+  if cutoff_hz <= 0.0 ||
+    sample_rate <= 0.0 ||
+    cutoff_hz >= sample_rate / 2.0 ||
+    q <= 0.0 {
+    raise InvalidArgument(message="notch parameters must be valid")
+  }
+  let w0 = 2.0 * @math.PI * cutoff_hz / sample_rate
+  let cosw = @math.cos(w0)
+  let sinw = @math.sin(w0)
+  let alpha = sinw / (2.0 * q)
+  let a0 = 1.0 + alpha
+  Biquad::new(
+    1.0 / a0,
+    -2.0 * cosw / a0,
+    1.0 / a0,
+    -2.0 * cosw / a0,
+    (1.0 - alpha) / a0,
+  )
+}
+
+///|
+pub fn Biquad::allpass(
+  cutoff_hz : Double,
+  sample_rate : Double,
+  q? : Double = 0.707,
+) -> Biquad raise SpectrumError {
+  if cutoff_hz <= 0.0 ||
+    sample_rate <= 0.0 ||
+    cutoff_hz >= sample_rate / 2.0 ||
+    q <= 0.0 {
+    raise InvalidArgument(message="allpass parameters must be valid")
+  }
+  let w0 = 2.0 * @math.PI * cutoff_hz / sample_rate
+  let cosw = @math.cos(w0)
+  let sinw = @math.sin(w0)
+  let alpha = sinw / (2.0 * q)
+  let a0 = 1.0 + alpha
+  Biquad::new(
+    (1.0 - alpha) / a0,
+    -2.0 * cosw / a0,
+    (1.0 + alpha) / a0,
+    -2.0 * cosw / a0,
+    (1.0 - alpha) / a0,
+  )
+}
+
+///|
 pub fn Biquad::step(self : Biquad, x : Double) -> Double {
   let y = self.b0 * x +
     self.b1 * self.x1 +

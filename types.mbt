@@ -20,6 +20,39 @@ pub(all) struct Peak {
 } derive(Debug, Eq, ToJson)
 
 ///|
+pub(all) struct SignalStats {
+  count : Int
+  mean : Double
+  variance : Double
+  stddev : Double
+  rms : Double
+  minimum : Double
+  maximum : Double
+  peak_to_peak : Double
+} derive(Debug, Eq, ToJson)
+
+///|
+pub(all) struct SignalPeak {
+  index : Int
+  value : Double
+} derive(Debug, Eq, ToJson)
+
+///|
+pub(all) struct WelchResult {
+  frequencies : Array[Double]
+  psd : Array[Double]
+} derive(Debug, Eq, ToJson)
+
+///|
+pub(all) struct SpectralSummary {
+  centroid : Double
+  bandwidth : Double
+  flatness : Double
+  entropy : Double
+  rolloff : Double
+} derive(Debug, Eq, ToJson)
+
+///|
 pub(all) suberror SpectrumError {
   EmptySignal
   LengthMismatch
